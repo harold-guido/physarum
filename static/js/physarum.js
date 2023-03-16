@@ -13,3 +13,36 @@ function createGrid(rows, cols) {
     }
   }
 }
+
+function setupInteraction() {
+  const dots = document.getElementById("dot");
+  let selectedDot = null;
+  let foodDot = null;
+
+  for (const dot of dots) {
+    dot.addEventListener("click", function () {
+      if (selectedDot) {
+        selectedDot.classList.remove("selected");
+      }
+      if (foodDot && foodDot === dot) {
+        foodDot.classList.remove("food");
+        footDot = null;
+      }
+      selectedDot = dot;
+      dot.classList.add("selected");
+    });
+
+    dot.addEventListener("contextmenu", function (e) {
+      e.preventDefault();
+      if (foodDot) {
+        foodDot.classList.remove("food");
+      }
+      if (selectedDot && selectedDot == dot) {
+        selectedDot.classList.remove("selected");
+        selectedDot = null;
+      }
+      foodDot = dot;
+      dot.classList.add("food");
+    });
+  }
+}
