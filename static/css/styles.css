@@ -1,0 +1,16 @@
+#grid-container {
+  position: relative;
+}
+
+.dot {
+  position: absolute;
+  background-color: lightgrey;
+}
+
+.selected {
+  background-color: blue;
+}
+
+.food {
+  background-color: green;
+}
