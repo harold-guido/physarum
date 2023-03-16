@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/styles.css') }}"
+    />
+    <script>
+      src = "{{ url_for('static', filename='js/physarum.js') }}";
+    </script>
+    <title></title>
+  </head>
+  <body>
+    <div id="grid-container"></div>
+    <button id="confirm-button">Confirm</button>
+    <div id="simulation-container"></div>
+    <script>
+      createGrid(100, 100);
+      setupInteraction();
+      document
+        .getElementById("confirm-button")
+        .addEventListener("click", runPhysarumSimulation);
+    </script>
+  </body>
+</html>
