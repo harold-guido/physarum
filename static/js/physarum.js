@@ -46,3 +46,5 @@ function setupInteraction() {
     });
   }
 }
+
+function runPhysarumSimulation() {}
