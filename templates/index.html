@@ -10,11 +10,16 @@
     <title></title>
   </head>
   <body>
-    <div id="grid-container"></div>
-    <button id="confirm-button">Confirm</button>
-    <div id="simulation-container"></div>
+    <div class="container">
+      <div class="grid-container">
+        <canvas id="grid-canvas"></canvas>
+      </div>
+      <div class="menu-container">
+        <button id="confirm-button">Confirm</button>
+      </div>
+    </div>
     <script>
-      createGrid(100, 100);
+      drawGrid(10);
       setupInteraction();
       document
         .getElementById("confirm-button")
