@@ -11,7 +11,9 @@ document.addEventListener("DOMContentLoaded", () => {
   let hoveredCell = { row: null, col: null };
   let selectedCells = { rows: [], cols: [] };
 
-  // Functions
+  // FUNCTIONS
+
+  // CANVAS CREATION
 
   // Function to set size of canvas
   function setCanvasSize() {
@@ -45,26 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   drawGrid(canvasSize);
 
-  // Helper function to debounce events
-  function debounce(func, wait) {
-    let timeout;
-    return function (...args) {
-      clearTimeout(timeout);
-      timeout = setTimeout(() => func.apply(this, args), wait);
-    };
-  }
-
-  // Helper function to get grid cell coordinates
-  function getGridCellCoordinates(x, y, canvasSize, gridSize) {
-    const cellSize = canvasSize / gridSize;
-
-    const row = Math.floor(y / cellSize);
-    const col = Math.floor(x / cellSize);
-
-    return { row, col };
-  }
-
-  // Helper function to draw grid cell color
+  // Function to draw grid cell color
   function drawCell(row, col, color) {
     if (row != null && col != null) {
       // Clear previous color
@@ -97,6 +80,27 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  // HOVER EFFECT
+
+  // Helper function to debounce events
+  function debounce(func, wait) {
+    let timeout;
+    return function (...args) {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func.apply(this, args), wait);
+    };
+  }
+
+  // Helper function to get grid cell coordinates
+  function getGridCellCoordinates(x, y, canvasSize, gridSize) {
+    const cellSize = canvasSize / gridSize;
+
+    const row = Math.floor(y / cellSize);
+    const col = Math.floor(x / cellSize);
+
+    return { row, col };
+  }
+
   // Helper function to keep track of hovered cell
   function trackHoveredCell(row, col) {
     if (hoveredCell.row == null && hoveredCell.col == null) {
@@ -123,7 +127,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Function to update hover effect
-  function updateHoverEffect(x, y, canvasSize, gridSize, canvasContext) {
+  function updateHoverEffect(x, y, canvasSize) {
     const { row, col } = getGridCellCoordinates(x, y, canvasSize, gridSize);
     const { check, prevRow, prevCol } = trackHoveredCell(row, col);
 
@@ -151,6 +155,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  // SELECT EFFECT
+
+  // Function to check if cell has been and is selected
   function checkSelected(row, col) {
     for (let i = 0; i < selectedCells.rows.length; i++) {
       if (selectedCells.rows[i] == row && selectedCells.cols[i] == col) {
@@ -190,8 +197,9 @@ document.addEventListener("DOMContentLoaded", () => {
     drawCell(row, col, trackSelectedCells(row, col));
   }
 
-  // Further listeners
+  // LISTENERS
 
+  //Mousemove
   //Mouse moves
   canvas.addEventListener(
     "mousemove",
@@ -214,9 +222,11 @@ document.addEventListener("DOMContentLoaded", () => {
     updateSelectEffect(row, col);
   });
 
-  //Window resize listener
+  //Resize
   window.addEventListener("resize", () => {
     canvasSize = setCanvasSize();
     drawGrid(canvasSize);
   });
+
+  //
 });
