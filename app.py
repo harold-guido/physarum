@@ -16,9 +16,9 @@ def handle_selected_cells():
     data = request.get_json()
 
     grid_size = data['gridSize']
-    physarum_source = data['firstCell']
-    food_source = data['secondCell']
+    food_source = data['firstCell']
+    food_sink = data['secondCell']
 
-    return_statement = run_simulation(grid_size, physarum_source, food_source)
+    return_statement = run_simulation(grid_size, food_source, food_sink)
 
     return jsonify({ 'message': return_statement })
