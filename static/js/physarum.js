@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Reusable constants
   const canvas = document.getElementById("grid-canvas");
   const canvasContext = canvas.getContext("2d");
-  const gridSize = 25;
+  const gridSize = 10;
 
   // Colors
   const borderColor = "rgba(200, 200, 200, 0.5)";
@@ -197,10 +197,45 @@ document.addEventListener("DOMContentLoaded", () => {
     drawCell(row, col, trackSelectedCells(row, col));
   }
 
+  // SUBMIT FOR MODEL
+  function submitData(gridSize, firstCell, secondCell) {
+    const data = {
+      gridSize: gridSize,
+      firstCell: firstCell,
+      secondCell: secondCell,
+    };
+
+    fetch('/physarum', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('Success:', data);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }
+
   // LISTENERS
 
   //Mousemove
   //Mouse moves
+  //Mousemove
+  //Click
+  canvas.addEventListener("click", () => {
+    const canvasRect = canvas.getBoundingClientRect();
+    const x = event.clientX - canvasRect.left;
+    const y = event.clientY - canvasRect.top;
+    const { row, col } = getGridCellCoordinates(x, y, canvasSize, gridSize);
+
+    updateSelectEffect(row, col);
+  });
+
   canvas.addEventListener(
     "mousemove",
     debounce((event) => {
@@ -212,15 +247,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 10)
   );
 
-  //Click
-  canvas.addEventListener("click", () => {
-    const canvasRect = canvas.getBoundingClientRect();
-    const x = event.clientX - canvasRect.left;
-    const y = event.clientY - canvasRect.top;
-    const { row, col } = getGridCellCoordinates(x, y, canvasSize, gridSize);
-
-    updateSelectEffect(row, col);
-  });
 
   //Resize
   window.addEventListener("resize", () => {
@@ -228,5 +254,14 @@ document.addEventListener("DOMContentLoaded", () => {
     drawGrid(canvasSize);
   });
 
-  //
+  //Submit Button
+  document
+    .getElementById("confirm-button")
+    .addEventListener("click", () => {
+      if (selectedCells.rows.length === 2 && selectedCells.cols.length === 2) {
+        submitData(gridSize, { row: selectedCells.rows[0], col: selectedCells.cols[0] }, { row: selectedCells.rows[1], col: selectedCells.cols[1] });
+      } else {
+        console.log('Please select exactly 2 cells before confirming.');
+      }
+    });
 });
